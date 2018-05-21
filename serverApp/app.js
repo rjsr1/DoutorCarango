@@ -3,20 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-//var mysql = require('mysql');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var usuariosRouter = require('./routes/usuarios');
 var app = express();
-
-
-// started connection with mysql db
-/*connection = mysql.createConnection({host: "127.0.0.1", user: "root", password: "testemaria", database: "test"});
-connection.connect(function(err){
-    if(err) throw err;
-    console.log("Conexao estabelecida com o banco!\n");
-})*/
-//connection = database.connection;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
