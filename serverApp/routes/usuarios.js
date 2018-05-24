@@ -22,10 +22,18 @@ router.get('/:type',function(req, res, next){
       return res.send(result);
     });
 });
-//procurar por id
-router.get('/search/:id',function(req,res,next){
+//procurar por id, nome e ou cpf
+router.get('/procurar/id=:id&nome=:nome&cpf=:cpf&login=:login',function(req,res,next){
     var id = req.params.id;
-    var sql = "select * from TB_Usuarios where id = "+id;
+    var nome = req.params.nome;
+    var cpf = req.params.cpf;
+    var login = req.params.login;
+    if(id=="*") id = "id"; else id = "'"+id+"'";
+    if(nome=="*") nome = "nome"; else nome = "'"+nome+"'";
+    if(cpf=="*") cpf = "cpf"; else cpf = "'"+cpf+"'";
+    if(login=="*") login = "login"; else login = "'"+login+"'";
+    var sql = "select * from TB_Usuarios where id = "+id+" && "+" nome = "+nome+" && "+" cpf = "+cpf+" && "+" login = "+login;
+    console.log(sql);
     connection.query(sql, function(err, result, fields){
         if(err){
             console.log(err);
@@ -34,8 +42,9 @@ router.get('/search/:id',function(req,res,next){
       return res.send(result);
     });
 });
+
 //cadastro
-router.post('/cadastrar', function(req, res, fields){
+router.post('/cadastrar', function(req, res, next){
     var sql = "insert into tb_usuarios (nome, cpf, email, login, senha, localizacao_atual, rua, numero, bairro, cep, estado, pais, complemento, foto_perfil) Values ?"
     var values = [[req.body.nome, req.body.cpf, req.body.email, req.body.login, req.body.senha, req.body.localizacao_atual,
     req.body.rua, req.body.numero,req.body.bairro, req.body.cep, req.body.estado, req.body.pais, req.body.complemento, req.body.foto_perfil]];
@@ -44,17 +53,45 @@ router.post('/cadastrar', function(req, res, fields){
             console.log(err);
            return res.send({men: err.code});
         }
-        return res.send({men: "ok"});
+        return res.send({men: "cadastrado"});
     });
 });
 
-/*router.patch('/atualizar/:id', function(req,res,fields){
-    var sql = "up"
-
-
-
+router.put('/atualizar/id=:id', function(req,res,next){
+    var id = req.params.id;
+    if(id=="*") id = "id"; else id = "'"+id+"'";
+    var sql = "update TB_Usuarios set nome = '"+req.body.nome+"', cpf = '"+req.body.cpf+
+    "', email = '"+req.body.email+"' , "+"', login = '"+req.body.login+"' , "+
+    "', senha = '"+req.body.senha+"' , "+"', localizacao_atual = '"+req.body.localizacao_atual+"' , "+
+    "', rua = '"+req.body.rua+"' , "+"', numero = '"+req.body.numero+"' , "+"', bairro = '"+req.body.bairro+"' , "+
+    "', estado = '"+req.body.estado+"' , "+"', pais = '"+req.body.pais+"' , "+"', complemento = '"+req.body.complemento+"' , "+
+    "', foto_perfil = '"+req.body.foto_perfil+"' where id = '"+id+"'";
+    connection.query(sql, function (err, result) {
+        if (err){
+            console.log(err);
+           return res.send({men: err.code});
+        }
+        return res.send({men: "atualizado"});
+    });
 });
-*/
+
+
+router.delete('/deletar/id=:idid=:id&cpf=:cpf&login=:login', function(req,res,next){
+    var id = req.params.id;
+    var cpf = req.params.cpf;
+    var login = req.params.login;
+    if(id=="*") id = "id"; else id = "'"+id+"'";
+    if(cpf=="*") cpf = "cpf"; else cpf = "'"+cpf+"'";
+    if(login=="*") login = "login"; else login = "'"+login+"'";
+    sql = "delete from TB_Usuarios where id = "+id+" && "+" cpf = "+cpf+" && "+" login = "+login;
+    connection.query(sql, function (err, result) {
+        if (err){
+            console.log(err);
+           return res.send({men: err.code});
+        }
+        return res.send({men: "deletado"});
+    });
+});
 
 
 module.exports = router;
