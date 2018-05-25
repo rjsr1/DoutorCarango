@@ -6,13 +6,13 @@ var mysql = require('mysql');
 connection = mysql.createConnection(config.database);
 connection.connect(function(err){
     if(err) throw err;
-    console.log("Conexao estabelecida com o banco, app usuarios!\n");
+    console.log("Conexao estabelecida com o banco app, categorias!\n");
 });
 
 //listar todos usuario type=desc(decrente), type=asc(crescente)
 router.get('/:type',function(req, res, next){
     var type = req.params.type;
-    var sql = "select * from TB_Usuarios order by nome "+type;
+    var sql = "select * from TB_Categorias order by categoria "+type;
     console.log(req.params.id);
     connection.query(sql, function(err, result, fields){
         if(err){
@@ -22,17 +22,14 @@ router.get('/:type',function(req, res, next){
       return res.send(result);
     });
 });
-//procurar por id, nome e ou cpf
-router.get('/procurar/id=:id&nome=:nome&cpf=:cpf&login=:login',function(req,res,next){
+
+//procurar por id, categoria
+router.get('/procurar/id=:id&categoria=:categoria',function(req,res,next){
     var id = req.params.id;
-    var nome = req.params.nome;
-    var cpf = req.params.cpf;
-    var login = req.params.login;
+    var categoria = req.params.categoria;
     if(id=="*") id = "id"; else id = "'"+id+"'";
-    if(nome=="*") nome = "nome"; else nome = "'"+nome+"'";
-    if(cpf=="*") cpf = "cpf"; else cpf = "'"+cpf+"'";
-    if(login=="*") login = "login"; else login = "'"+login+"'";
-    var sql = "select * from TB_Usuarios where id = "+id+" && "+" nome = "+nome+" && "+" cpf = "+cpf+" && "+" login = "+login;
+    if(categoria=="*") categoria = "categoria"; else categoria = "'"+categoria+"'";
+    var sql = "select * from TB_Categorias where id = "+id+" && "+" categoria = "+categoria;
     console.log(sql);
     connection.query(sql, function(err, result, fields){
         if(err){
@@ -45,9 +42,8 @@ router.get('/procurar/id=:id&nome=:nome&cpf=:cpf&login=:login',function(req,res,
 
 //cadastro
 router.post('/cadastrar', function(req, res, next){
-    var sql = "insert into tb_usuarios (nome, cpf, email, login, senha, localizacao_atual, rua, numero, bairro, cep, estado, pais, complemento, foto_perfil) Values ?"
-    var values = [[req.body.nome, req.body.cpf, req.body.email, req.body.login, req.body.senha, req.body.localizacao_atual,
-    req.body.rua, req.body.numero,req.body.bairro, req.body.cep, req.body.estado, req.body.pais, req.body.complemento, req.body.foto_perfil]];
+    var sql = "insert into TB_Categorias (categoria) Values ?"
+    var values = [[req.body.categoria]];
     connection.query(sql, [values], function (err, result) {
         if (err){
             console.log(err);
@@ -61,12 +57,7 @@ router.post('/cadastrar', function(req, res, next){
 router.put('/atualizar/id=:id', function(req,res,next){
     var id = req.params.id;
     if(id=="*") id = "id"; else id = "'"+id+"'";
-    var sql = "update TB_Usuarios set nome = '"+req.body.nome+"', cpf = '"+req.body.cpf+
-    "', email = '"+req.body.email+"' , "+" login = '"+req.body.login+"' , "+
-    " senha = '"+req.body.senha+"' , "+" localizacao_atual = '"+req.body.localizacao_atual+"' , "+
-    " rua = '"+req.body.rua+"' , "+" numero = '"+req.body.numero+"' , "+" bairro = '"+req.body.bairro+"' , "+
-    " estado = '"+req.body.estado+"' , "+" pais = '"+req.body.pais+"' , "+" complemento = '"+req.body.complemento+"' , "+
-    " foto_perfil = '"+req.body.foto_perfil+"' where id = "+id;
+    var sql = "update TB_Categorias set categoria = '"+req.body.categoria+"' where id = "+id+"";
     console.log(sql);
     connection.query(sql, function (err, result) {
         if (err){
@@ -78,14 +69,12 @@ router.put('/atualizar/id=:id', function(req,res,next){
 });
 
 //deleta passando como parametro id, cpf e ou login
-router.delete('/deletar/id=:id&cpf=:cpf&login=:login', function(req,res,next){
+router.delete('/deletar/id=:id&categoria=:categoria', function(req,res,next){
     var id = req.params.id;
-    var cpf = req.params.cpf;
-    var login = req.params.login;
+    var categoria = req.params.categoria;
     if(id=="*") id = "id"; else id = "'"+id+"'";
-    if(cpf=="*") cpf = "cpf"; else cpf = "'"+cpf+"'";
-    if(login=="*") login = "login"; else login = "'"+login+"'";
-    sql = "delete from TB_Usuarios where id = "+id+" && "+" cpf = "+cpf+" && "+" login = "+login;
+    if(categoria=="*") categoria = "categoria"; else categoria = "'"+categoria+"'";
+    sql = "delete from TB_Categorias where id = "+id+" && "+" categoria = "+categoria+"";
     console.log(sql);
     connection.query(sql, function (err, result) {
         if (err){
@@ -95,6 +84,5 @@ router.delete('/deletar/id=:id&cpf=:cpf&login=:login', function(req,res,next){
         return res.send({men: "deletado"});
     });
 });
-
 
 module.exports = router;

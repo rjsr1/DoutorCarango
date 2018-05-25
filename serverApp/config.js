@@ -3,7 +3,7 @@ var config = {
         host: 'localhost',     
         user: 'root',         
         password: 'testemaria',              
-        database: 'test'         
+        database: 'doutorcarango'         
     },
     server: {
         host: '127.0.0.1',
