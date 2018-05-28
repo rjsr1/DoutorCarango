@@ -22,6 +22,51 @@ router.get('/:type',function(req, res, next){
       return res.send(result);
     });
 });
+
+//verificar quais as oficinas fazem quais serviços
+router.get('/categoria/:tipo', function (res, req, next) {
+    var filter = req.params.tipo;
+    var idCategoria = "select * from tb_categorias where categoria = " + filter;
+    var getEstabelecimentos = "select id_estabelecimentos from tb_estabelecimentos_categorias where id_categorias = " + idCategoria;
+    var sql = "select * from tb_estabelecimentos where id = (" + getEstabelecimentos + ")";
+    connection.query(sql, function (err, result) {
+        if(err){
+            console.log(err);
+            return res.send({men: err.code});
+        }
+        return res.send(result)
+    })
+});
+
+
+//1 = Agilidade
+//2 = Preço Baixo
+//3 = Serviço
+//ordena oficinas pelo rank escolhido
+router.get('/filter/:order', function (req, res, next) {
+    var order = req.params.order;
+    var filter;
+    if (order == 1) {
+        filter = "rankingAgilidade";
+    }
+    if (order == 2) {
+        filter = "rankingCustoBeneficio";
+    }
+    if (order == 3) {
+        filter = "rankingServico";
+    }
+    var sql = "select * from TB_Estabelecimentos order by " + order;
+    console.log(sql);
+    connection.query(sql, function (err, result) {
+        if (err) {
+            console.log(err)
+            return res.send({ men: err.code })
+        }
+        return res.send(result);
+    });
+
+});
+
 //procurar por id, nome e ou cpf
 router.get('/procurar/id=:id&nome=:nome&cnpj=:cnpj&login=:login',function(req,res,next){
     var id = req.params.id;
