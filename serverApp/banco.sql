@@ -117,72 +117,65 @@ CREATE TABLE TB_Av_Servico(
   Foreign Key (id_usuarios) References TB_Usuarios(id) on update cascade on delete cascade
 );
 
-CREATE  TRIGGER  Media_Av_Agilidade AFTER insert ON TB_Av_Agilidade FOR each ROW
-  
+
+
+CREATE  TRIGGER  Media_Av_Agilidade_insercao AFTER insert ON TB_Av_Agilidade FOR each ROW
   update TB_Estabelecimentos as E 
-    inner join TB_Av_Agilidade as A on E.id_estabelecimentos = A.id_estabelecimentos
+    inner join TB_Av_Agilidade A ON E.id = A.id_estabelecimentos
   set E.rankingAgilidade = (select avg(A.nota) from TB_Av_Agilidade as A);
 
 
 
-CREATE TRIGGER  Media_Av_CustoBeneficio AFTER insert  ON TB_Av_CustoBeneficio FOR each ROW
-  
+CREATE TRIGGER  Media_Av_CustoBeneficio_insercao AFTER insert  ON TB_Av_CustoBeneficio FOR each ROW  
   update TB_Estabelecimentos as E
-    inner join  TB_Av_CustoBeneficio as C on E.id_estabelecimentos = C.id_estabelecimentos
+    inner join  TB_Av_CustoBeneficio as C on E.id = C.id_estabelecimentos
   set E.rankingCustoBeneficio = (select avg(C.nota) from TB_Av_CustoBeneficio as C);
   
 
 
-CREATE  TRIGGER  Media_Av_Servico AFTER insert  ON TB_Av_Servico FOR each ROW
-  
+CREATE  TRIGGER  Media_Av_Servico_insercao AFTER insert  ON TB_Av_Servico FOR each ROW 
   update TB_Estabelecimentos as E
-    inner join TB_Av_Servico as S on E.id_estabelecimentos = S.id_estabelecimentos
+    inner join TB_Av_Servico as S on E.id = S.id_estabelecimentos
   set E.rankingServico = (select avg(S.nota) from TB_Av_Servico as S);
 
 
 
-CREATE  TRIGGER  Media_Av_Agilidade AFTER update ON TB_Av_Agilidade FOR each ROW
-  
+CREATE  TRIGGER  Media_Av_Agilidade_update AFTER update ON TB_Av_Agilidade FOR each ROW
   update TB_Estabelecimentos as E 
-    inner join TB_Av_Agilidade as A on E.id_estabelecimentos = A.id_estabelecimentos
+    inner join TB_Av_Agilidade as A on E.id = A.id_estabelecimentos
   set E.rankingAgilidade = (select avg(A.nota) from TB_Av_Agilidade as A);
 
 
 
-CREATE  TRIGGER  Media_Av_CustoBeneficio AFTER update ON TB_Av_CustoBeneficio FOR each ROW
-  
+CREATE  TRIGGER  Media_Av_CustoBeneficio_update AFTER update ON TB_Av_CustoBeneficio FOR each ROW 
   update TB_Estabelecimentos as E
-    inner join  TB_Av_CustoBeneficio as C on E.id_estabelecimentos = C.id_estabelecimentos
+    inner join  TB_Av_CustoBeneficio as C on E.id = C.id_estabelecimentos
   set E.rankingCustoBeneficio = (select avg(C.nota) from TB_Av_CustoBeneficio as C);
   
 
 
-CREATE TRIGGER  Media_Av_Servico AFTER update  ON TB_Av_Servico FOR each ROW
-  
+CREATE TRIGGER  Media_Av_Servico_update AFTER update ON TB_Av_Servico FOR each ROW
   update TB_Estabelecimentos as E
-    inner join TB_Av_Servico as S on E.id_estabelecimentos = S.id_estabelecimentos
+    inner join TB_Av_Servico as S on E.id = S.id_estabelecimentos
   set E.rankingServico = (select avg(S.nota) from TB_Av_Servico as S);
   
 
 
-CREATE  TRIGGER  Media_Av_Agilidade AFTER Delete ON TB_Av_Agilidade FOR each ROW
-  
+CREATE  TRIGGER  Media_Av_Agilidade_delete AFTER Delete ON TB_Av_Agilidade FOR each ROW 
   update TB_Estabelecimentos as E 
-    inner join TB_Av_Agilidade as A on E.id_estabelecimentos = A.id_estabelecimentos
+    inner join TB_Av_Agilidade as A on E.id = A.id_estabelecimentos
   set E.rankingAgilidade = (select avg(A.nota) from TB_Av_Agilidade as A);
 
 
 
-CREATE TRIGGER  Media_Av_CustoBeneficio AFTER Delete ON TB_Av_CustoBeneficio FOR each ROW
-  
+CREATE TRIGGER  Media_Av_CustoBeneficio_delete AFTER Delete ON TB_Av_CustoBeneficio FOR each ROW
   update TB_Estabelecimentos as E
-    inner join  TB_Av_CustoBeneficio as C on E.id_estabelecimentos = C.id_estabelecimentos  
+    inner join  TB_Av_CustoBeneficio as C on E.id = C.id_estabelecimentos  
   set E.rankingCustoBeneficio = (select avg(C.nota) from TB_Av_CustoBeneficio as C);
   
   
 
-CREATE TRIGGER  Media_Av_Servico AFTER Delete ON TB_Av_Servico FOR each ROW
-  
+CREATE TRIGGER  Media_Av_Servico_delete AFTER Delete ON TB_Av_Servico FOR each ROW
   update TB_Estabelecimentos as E
-    inner join TB_Av_Servico as S on E.id_estabelecimentos = S.id_estabelecimentos
+    inner join TB_Av_Servico as S on E.id = S.id_estabelecimentos
   set E.rankingServico = (select avg(S.nota) from TB_Av_Servico as S);
