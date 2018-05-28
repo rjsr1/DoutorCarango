@@ -90,10 +90,10 @@ router.get('/procurar/id=:id&nome=:nome&cnpj=:cnpj&login=:login',function(req,re
 
 //cadastro
 router.post('/cadastrar', function(req, res, next){
-    var sql = "insert into TB_Estabelecimentos (nome, cnpj, email, login, senha, rua, numero, bairro,"+ 
+    var sql = "insert into TB_Estabelecimentos (nome, cnpj, email, login, senha, rua, numero, bairro, cidade,"+ 
         "cep, estado, pais, complemento, rankingAgilidade, rankingCustoBeneficio, RankingServico) Values ?";
     var values = [[req.body.nome, req.body.cnpj, req.body.email, req.body.login, req.body.senha,
-    req.body.rua, req.body.numero,req.body.bairro, req.body.cep, req.body.estado, req.body.pais,
+    req.body.rua, req.body.numero,req.body.bairro,req.body.cidade, req.body.cep, req.body.estado, req.body.pais,
      req.body.complemento, 0, 0, 0]];
     connection.query(sql, [values], function (err, result) {
         if (err){
@@ -111,7 +111,7 @@ router.put('/atualizar/id=:id', function(req,res,next){
     var sql = "update TB_Estabelecimentos set nome = '"+req.body.nome+"', cnpj = '"+req.body.cnpj+
     "', email = '"+req.body.email+"' , "+" login = '"+req.body.login+"' , "+
     " senha = '"+req.body.senha+"' , "+" rua = '"+req.body.rua+"' , "+" numero = '"+req.body.numero+"' , "+" bairro = '"+req.body.bairro+"' , "+
-    " estado = '"+req.body.estado+"' , "+" pais = '"+req.body.pais+"' , "+" complemento = '"+req.body.complemento+"'"+
+    "cep = '"+req.body.cep+"',"+" cidade = '"+req.body.cidade+"', "+" estado = '"+req.body.estado+"' , "+" pais = '"+req.body.pais+"' , "+" complemento = '"+req.body.complemento+"'"+
     " where id = "+id;
     console.log(sql);
     connection.query(sql, function (err, result) {
@@ -137,6 +137,61 @@ router.delete('/deletar/id=:id&cnpj=:cnpj&login=:login', function(req,res,next){
         if (err){
             console.log(err);
            return res.send({men: err.code});
+        }
+        return res.send({men: "deletado"});
+    });
+});
+
+router.get('/telefones/id_estabelecimentos=:id_estabelecimentos',function(req, res, next){
+    var id_estabelecimentos = req.params.id_estabelecimentos;
+    sql = "select id , telefone from TB_Telefones_Estabelecimentos where id_estabelecimentos = "+id_estabelecimentos;
+    console.log(sql);
+    connection.query(sql,function(err, result){
+        if(err){
+            console.log(err);
+            return res.send({men: err.code});
+        }
+        return res.send(result);
+    });
+});
+
+router.post('/telefones/cadastrar', function(req, res, next){
+    var id_estabelecimentos = req.body.id_estabelecimentos;
+    var telefone = req.body.telefone;
+    var values = [[id_estabelecimentos,telefone]];
+    sql = "insert into TB_Telefones_Estabelecimentos (id_estabelecimentos, telefone) Values ?";
+    console.log(sql);
+    connection.query(sql, [values], function(err, result){
+        if(err){
+            console.log(err);
+            return res.send({men: err.code});
+        }
+        return res.send({men: "cadastrado"})
+    });
+});
+
+router.put('/telefones/atualizar/id=:id', function(req, res, next){
+    var id = req.params.id;
+    var telefone = req.body.telefone;
+    sql = "update TB_Telefones_Estabelecimentos set telefone = '"+telefone +"' where id = "+id;
+    console.log(sql);
+    connection.query(sql, function(err, result){
+        if(err){
+            console.log(err);
+            return res.send({men: err.code});
+        }
+        return res.send({men: "atualizado"});
+    });
+});
+
+router.delete('/telefones/deletar/id=:id', function(req, res, next){
+    var id = req.params.id;
+    sql = "delete from TB_Telefones_Estabelecimentos where id = "+id;
+    console.log(sql);
+    connection.query(sql, function(err, result){
+        if(err){
+            console.log(err);
+            return res.send({men: err.code});
         }
         return res.send({men: "deletado"});
     });
