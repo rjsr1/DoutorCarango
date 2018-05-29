@@ -197,4 +197,61 @@ router.delete('/telefones/deletar/id=:id', function(req, res, next){
     });
 });
 
+router.post('/categorias/cadastrar',function(req,res,next){
+    var id_estabelecimentos = req.body.id_estabelecimentos;
+    var id_categorias = req.body.id_categorias;
+    values = [[id_estabelecimentos,id_categorias]]
+    sql = "insert into TB_Estabelecimentos_Categorias (id_estabelecimentos, id_categorias) values ?";
+    console.log(sql);
+    connection.query(sql,[values], function(err, result){
+        if(err){
+            console.log(err);
+            return res.send({men: err.code});
+        }
+        return res.send({men: "cadastrado"});
+    });
+});
+
+router.get('/categorias/id_estabelecimentos=:id_estabelecimentos',function(req, res,next){
+    var id_estabelecimentos = req.params.id_estabelecimentos;
+    sql = "select * from TB_Estabelecimentos_Categorias where id_estabelecimentos ="+id_estabelecimentos;
+    console.log(sql);
+    connection.query(sql,function(err, result){
+        if(err){
+            console.log(err);
+            return res.send({men: err.code});
+        }
+        return res.send(result);
+    });
+});
+
+router.delete('/categorias/deletar/id=:id',function(req,res,next){
+    var id = req.params.id;
+    sql = "delete from TB_Estabelecimentos_Categorias where id = "+id;
+    console.log(sql);
+    connection.query(sql, function(err, result){
+        if(err){
+            console.log(err);
+            return res.send({men: err.code});
+        }
+        return res.send({men: "deletado"});
+    });
+});
+
+router.put('/categorias/atualizar/id=:id',function(req, res, next){
+    var id = req.params.id;
+    var id_estabelecimentos = req.body.id_estabelecimentos;
+    var id_categorias = req.body.id_categorias;
+    sql = "update TB_Estabelecimentos_Categorias set id_estabelecimentos = '"+id_estabelecimentos+
+    "' , id_categorias = '"+id_categorias+"' where id = "+id;
+    console.log(sql);
+    connection.query(sql, function(err, result){
+        if(err){
+            console.log(err);
+            return res.send({men: err.code});
+        }
+        return res.send({men: "Atualizado"});
+    });
+});
+
 module.exports = router;
