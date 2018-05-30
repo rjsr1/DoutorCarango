@@ -1,6 +1,9 @@
+var express = require('express')
+  , routes = require('./routes')
+  , http = require('http')
+  , path = require('path');
+
 var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require("body-parser");
 var logger = require('morgan');
@@ -10,7 +13,9 @@ var usuariosRouter = require('./routes/usuarios');
 var estabelecimentosRouter = require('./routes/estabelecimentos');
 var categoriasRouter = require('./routes/categorias');
 var funcoesRouter = require('./routes/funcoes');
+var loginRouter = require('./routes/login');
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,12 +29,14 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/estabelecimentos',estabelecimentosRouter);
 app.use('/categorias',categoriasRouter);
 app.use('/funcoes', funcoesRouter);
+require('./routes/login.js')(app);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

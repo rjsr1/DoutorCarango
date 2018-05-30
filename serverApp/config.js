@@ -1,6 +1,6 @@
 var config = {
     database: {
-        host: 'localhost',     
+        host: '127.0.0.1',     
         user: 'root',         
         password: 'testemaria',              
         database: 'doutorcarango'         
@@ -11,4 +11,4 @@ var config = {
     }
 }
  
-module.exports = config
+module.exports = config;
