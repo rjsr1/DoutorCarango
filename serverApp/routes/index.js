@@ -16,7 +16,7 @@ connection.connect();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-
+/*
 router.get('/login', function(req, res, next) {
 	
    var message = '';
@@ -76,6 +76,6 @@ router.get('/signup', function(req, res, next) {
    
 });
 
-
+*/
 
 module.exports = router;
