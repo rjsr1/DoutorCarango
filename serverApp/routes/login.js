@@ -1,5 +1,18 @@
+var express = require('express');
+var router = express.Router();
+var config = require ('../config');
+var mysql = require('mysql');
 
-exports.signup = function(req, res){
+connection = mysql.createConnection(config.database);
+connection.connect(function(err){
+    if(err) throw err;
+    console.log("Conexao estabelecida com o banco app, login!\n");
+});
+
+global.db = connection;
+
+
+router.get('/signup', function(req, res, next) {
    message = '';
    if(req.method == "POST"){
       var post  = req.body;
@@ -19,9 +32,7 @@ exports.signup = function(req, res){
       var complemento = post.complemento;
       var perfil_pic = post.foto_perfil;
 
-      var sql = "INSERT INTO 'TB_Usuarios'('nome','cpf','email','login', 'senha', 'loc_atual',
-                  'rua', 'numero', 'bairro', 'cidade', 'cep', 'estado', 'pais', 'complemento', 'perfil_pic') 
-                  VALUES ('" + nome + "','" + email + "','" + login + "','" + senha + "','" + cpf + "')";
+      var sql = "INSERT INTO 'TB_Usuarios'('nome','cpf','email','login', 'senha', 'loc_atual','rua', 'numero', 'bairro', 'cidade', 'cep', 'estado', 'pais', 'complemento', 'perfil_pic')  VALUES ('" + nome + "','" + email + "','" + login + "','" + senha + "','" + cpf + "')";
 
       var query = db.query(sql, function(err, result) {
 
@@ -30,21 +41,21 @@ exports.signup = function(req, res){
       });
 
    } else {
-      //res.render('signup');
+      //res.render('signup.ejs');
    }
-};
+});
  
 
-exports.login = function(req, res){
+router.get('/login', function(req, res, next) {
    var message = '';
    var sess = req.session; 
 
    if(req.method == "POST"){
       var post  = req.body;
-      var name= post.user_name;
-      var pass= post.password;
+      var login = post.login;
+      var pass= post.senha;
      
-      var sql="SELECT id, nome, login FROM 'TB_Usuarios' WHERE 'nome'='"+name+"' and senha = '"+pass+"'";   
+      var sql="SELECT id, nome, login FROM 'TB_Usuarios' WHERE 'login'='"+login+"' and senha = '"+pass+"'";   
 
       db.query(sql, function(err, results){      
          if(results.length){
@@ -63,7 +74,7 @@ exports.login = function(req, res){
       //res.render('index.ejs',{message: message}); //page de retorno
    }
            
-};
+});
 
            
 exports.dashboard = function(req, res, next){

@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dr Carango</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    
+</head>
+<body>
+    <div class="container col-sm-12" id="mainform">
+            <div id="signupbox" style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                                                           
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Sign Up</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/">Sign In</a></div>
+                        </div> 
+                        <div class="panel-body" >
+                            <form class="form-horizontal" role="form" method="post" action="/signup" onSubmit="return checkblank(this);">
+                                <% if (message.length > 0) { %>
+                                                                                                            <div class="alert alert-success col-sm-12"><%= message %></div>
+                                                                                                <% } %>
+                                <div id="signupalert" style="display:none" class="alert alert-danger">
+                                    <p>Error:</p>
+                                    <span></span>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="nome" class="col-md-3 control-label">Nome</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="nome" placeholder="nome">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cpf" class="col-md-3 control-label">CPF</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" name="cpf" placeholder="CPF">
+                                    </div>
+                                </div>
+                                                                                                <div class="form-group">
+                                    <label for="mob_no" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Login" class="col-md-3 control-label">Login</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="login" placeholder="Login">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="senha" class="col-md-3 control-label">Senha</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="senha" placeholder="Senha">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Loc_atual" class="col-md-3 control-label">Localização atual</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="localizacao_atual" placeholder="Localização">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="rua" class="col-md-3 control-label">Rua</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="rua" placeholder="Rua">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="numero" class="col-md-3 control-label">Número</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" name="numero" placeholder="Número">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Bairro" class="col-md-3 control-label">Bairro</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="bairro" placeholder="Bairro">
+                                    </div>
+                                </div>
+
+ 
+                                <div class="form-group">
+                                    <!-- Button -->                                       
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+                                        
+                                    </div>
+                                </div>
+                               
+                                
+                                
+                                
+                            </form>
+                         </div>
+                    </div>
+              
+                
+         </div>
+    </div>
+   
+</body>
+</html>
+ 

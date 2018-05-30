@@ -1,6 +1,5 @@
 var express = require('express')
   , routes = require('./routes')
-  , login = require('./routes/login')
   , http = require('http')
   , path = require('path');
 
@@ -14,6 +13,7 @@ var usuariosRouter = require('./routes/usuarios');
 var estabelecimentosRouter = require('./routes/estabelecimentos');
 var categoriasRouter = require('./routes/categorias');
 var funcoesRouter = require('./routes/funcoes');
+var loginRouter = require('./routes/login');
 var app = express();
 
 // view engine setup
@@ -34,6 +34,8 @@ app.use('/usuarios', usuariosRouter);
 app.use('/estabelecimentos',estabelecimentosRouter);
 app.use('/categorias',categoriasRouter);
 app.use('/funcoes', funcoesRouter);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
